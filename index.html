@@ -3,155 +3,887 @@
 <head>
     <meta charset="UTF-8">
     <title>劉采盈's Blog</title>
+    <style>
+        body {
+            background-color: #faf7ed; /* 設置極淺的灰白色背景 */
+        }
+        /* ======================================= */
+        /* 基礎樣式與清除浮動 */
+        /* ======================================= */
+        /* 清除浮動的通用類別 (將應用於 main) */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* 實心分隔線 */
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 30px 0 0 0; 
+            display: block; 
+        }
+
+        /* 讓 details 和 iframe 強制換行 */
+        main > details,
+        main > iframe {
+            clear: both; /* 強制清除所有浮動元素 */
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* ======================================= */
+        /* HEADER 和 NAV 樣式 */
+        /* ======================================= */
+        header {
+            background-color: #4682B4;
+            padding: 10px 0 0 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            color: #dae8f4;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        header nav {
+            background-color: #a1cdf1;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header nav a {
+            color: #4682B4;
+            text-decoration: none;
+            padding: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        header nav a:hover {
+            color: white;
+        }
+
+        /* ======================================= */
+        /* MAIN 容器設定 (置中並限制最大寬度) */
+        /* ======================================= */
+        main {
+            max-width: 1200px;
+            margin: 0 auto; 
+            padding-left: 20px; /* 保持基礎左側 20px 偏移 */
+        }
+
+        /* ======================================= */
+        /* 內容區塊 ARTICLE 樣式 (擴展到 100% 寬度) */
+        /* ======================================= */
+        main article {
+            width: 100%; 
+            float: none; 
+            margin-top: 20px; 
+            margin-bottom: 30px; 
+            padding-bottom: 0; 
+            box-sizing: border-box;
+            clear: both; 
+        }
+
+        /* 讓表格內容也偏移 40px (20px main padding + 20px padding) */
+        main article table td {
+            padding-left: 20px;
+        }
+        
+        /* 標題 H2 框線/強調樣式 (距離左側 20px) */
+        main article h2 {
+            display: block; 
+            background-color: #f0f8ff; 
+            color: #4682B4;
+            padding: 5px 15px 5px 10px;
+            margin-top: 0;
+            margin-left: 0; 
+            margin-bottom: 20px;
+            border: 3px solid #4682B4; 
+            border-radius: 5px; 
+            width: fit-content; 
+        }
+        
+        /* 內文、表格、Figure 等需要 40px 偏移的元素 */
+        main article p,
+        main article section,
+        main article .school-entry,
+        main article .image-showcase-box,
+        main article > audio,
+        main article > video {
+            margin-left: 20px; 
+        }
+        
+        /* *************************************** */
+        /* SECTION 1 內部分欄佈局 (名片與描述文字) */
+        /* *************************************** */
+        
+        /* 1. 名片區塊 (第一 section - 左欄) */
+        #section1 section:nth-of-type(1) {
+            width: 500px; /* 固定寬度以容納名片框 */
+            float: left;
+            margin-right: 20px; /* 創造與右側文字的間距 */
+            margin-left: 20px; /* 保持 40px 總偏移 */
+            box-sizing: border-box;
+        }
+
+        /* 2. 描述文字區塊 (第二 section - 右欄) */
+        #section1 section:nth-of-type(2) {
+            /* 計算剩餘寬度：100% - 540px (名片) - 20px gap - 20px main padding */
+            width: calc(100% - 540px); 
+            float: left;
+            margin-left: 0; /* 讓文字緊貼名片 */
+            box-sizing: border-box;
+        }
+
+        /* 移除第二 section 內段落的通用 margin-left，讓它們貼齊名片旁邊 */
+        #section1 section:nth-of-type(2) p {
+            margin-left: 0;
+        }
+        
+        /* 處理個人資訊表格的藍色框線 */
+        #section1 table {
+            border: 2px solid #4682B4;
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-left: 0; 
+        }
+        
+        /* 修正點：表格行內元素垂直居中 (使圖片和文字對齊) */
+        #section1 table tr {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 新增：名片內文字水平排列 (強制 inline) */
+        #section1 table h1, 
+        #section1 table p {
+            display: inline;
+            margin: 0; /* 移除預設的 block 邊距 */
+            padding-right: 10px; 
+        }
+
+        /* 修正點：頭貼圓角樣式 */
+        #section1 table img {
+            width: 180px; 
+            height: 180px; 
+            border-radius: 30%; 
+            object-fit: cover; 
+            padding: 5px;
+        }
+        
+        /* 學習經歷校徽樣式 */
+        #section2 section {
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: space-between; 
+            margin-bottom: 20px;
+            margin-left: 20px; 
+        }
+
+        #section2 .school-entry {
+            width: 31%; 
+            min-width: 180px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center;
+            margin-bottom: 20px; 
+            margin-left: 0 !important; 
+        }
+
+        #section2 .school-entry img {
+            width: 80px; 
+            height: 80px; 
+            margin: 0 0 10px 0; 
+            object-fit: contain;
+        }
+
+        /* *************************************** */
+        /* 圖片作品外框樣式 (固定 20px 間隔) */
+        /* *************************************** */
+        
+        /* 圖片外框容器的通用偏移 */
+        article#section8 > div.image-gallery-wrapper { 
+            padding-left: 20px; 
+        }
+        
+        /* 圖片作品整體的 wrapper，用於包含兩欄 */
+        .image-gallery-wrapper {
+            width: 800px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            flex-wrap: wrap; 
+        }
+
+        /* 定義兩欄的大框框 */
+        .image-column {
+            width: 340px; 
+            float: left;
+            margin-right: 20px; 
+            box-sizing: border-box;
+            padding: 0; 
+            display: block; 
+            text-align: left; 
+            margin-bottom: 20px; 
+        }
+
+        .image-column:last-child {
+            margin-right: 0; 
+        }
+        
+        /* 圖片小框框：垂直堆疊在欄內 */
+        .image-showcase-box {
+            width: 100%; 
+            float: none;
+            display: block; 
+            margin: 0 0 20px 0; 
+            
+            border: 2px solid #a1cdf1; 
+            border-radius: 8px; 
+            padding: 20px; 
+            background-color: #f8fcff; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+            text-align: center; 
+            
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
+        }
+        
+        /* 圖片內部的 figure/img 置中 */
+        .image-showcase-box figure {
+            margin: 0 auto; 
+            display: block; 
+            text-align: center; 
+        }
+
+        .image-showcase-box figure img {
+            max-width: 100%; 
+            height: auto;
+            margin: 0 auto 10px auto; 
+            display: block;
+        }
+
+        /* *************************************** */
+        /* 旋轉木馬/圖片輪播樣式 (修復比例失真和加入 figcaption 支援) */
+        /* *************************************** */
+        .carousel-container {
+            position: relative;
+            float: left; 
+            width: 300px; 
+            max-width: none; 
+            overflow: hidden; 
+            margin: 0 0 20px 20px; 
+            border: 0px ;
+            border-radius: 5px;
+            height: 300px; 
+            transition: height 0.5s ease-in-out; 
+        }
+
+        .carousel-slide {
+            display: flex; 
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+            height: auto; 
+        }
+
+        .carousel-slide img {
+            width: 100%; 
+            height: 300px; 
+            object-fit: contain; 
+            flex-shrink: 0; 
+            display: block;
+            margin: 0 auto; 
+        }
+
+        .carousel-slide figure {
+            width: 100%;
+            flex-shrink: 0;
+            margin: 0; 
+            text-align: center;
+        }
+
+        .carousel-slide figcaption {
+            font-size: 0.9em;
+            color: #555;
+            padding: 5px 10px 10px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .carousel-buttons {
+            z-index: 100; 
+            position: absolute;
+            bottom: 0px; 
+            left: 15%;
+            transform: translateX(-50%);
+        }
+        
+        /* 小小技能：兩欄並排佈局 (恢復橫向) */
+        #section3 section,
+        #section4 section,
+        #section5 section,
+        #section9 section { 
+            width: 40%; 
+            float: left; 
+            margin-top: 0; 
+            margin-left: 20px; 
+            margin-right: 20px; 
+        }
+
+        /* FOOTER 樣式 (統一) */
+        footer {
+            background-color: #f0f0f0;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            width: 100%; 
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>劉采盈 的個人部落格</h1>
         <nav>
             <a href="#section1">關於我</a>
-            <a href="#section2">學習經歷</a>
+            <a href="#section2">就讀學校</a>
             <a href="#section3">小小技能</a>
-            <a href="#section4">音樂作品</a>
-            <a href="#section5">視訊作品</a>
-            <a href="#section6">圖片作品</a>
-            <a href="#section7">更多資訊</a>
+            <a href="#section4">比賽經歷</a>
+            <a href="#section5">排球隊</a>
+            <a href="#section6">音樂作品</a>
+            <a href="#section7">視訊作品</a>
+            <a href="#section8">圖片作品</a>
+            <a href="#section9">密室逃脫</a>
+            <a href="#section10">學校位置</a>
         </nav>
     </header>
     
-    <main>
-        <!--側邊欄補充資訊--> 
-        <aside style="width:30%; float:right;">
-            <blockquote>
-                <h3>學習小貼士</h3>
-                <p>記得提前預習課程內容，並查詢相關資料以加深理解。</p>
-            </blockquote>
-        </aside>
-
-        <!-- 個人介紹 -->
+    <main class="clearfix">
         <article id="section1">
-            <header>
-                <h2>關於我</h2>
-                <p>在此部落格中，將分享我在工作上及生活中的點滴。</p>
-            </header>
-            <section>
-                <table cellspacing="20">
-                    <tr>
-                        <td><img src="asset\image\images.jpg" alt=""></td>
-                        <td><h1>劉采盈</h1><p>
-                            <strong><a href="https://www.ntue.edu.tw/">國立台北教育大學</a></strong> 學生</p></td>
-                    </tr>
-                </table>
-            </section>
-            <section>
-                <p>我是一位學生，喜歡<mark>排球</mark> 和 <mark>跑步</mark></p>
-                <p>我也很喜歡出去玩、看展覽、看球賽、喜歡趴哩啪啦講一堆話，還喜歡追劇</p>
-            </section>
+            <h2>關於我</h2>
+            <div class="clearfix"> 
+                <section>
+                    <table cellspacing="20">
+                        <tr>
+                            <td><img src="asset\image\images.jpg" ></td>
+                            <td>
+                                <div class="name-text-wrapper"> 
+                                    <h1>劉采盈ü</h1><br><br>
+                                    <p>
+                                        <strong><a href="https://www.ntue.edu.tw/">國立台北教育大學</a></strong> 學生
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                
+                <section>
+                    <p>我是一位學生，喜歡<mark>排球</mark> 🏐和 <mark>跑步</mark></p>
+                    <p>我也很喜歡出去玩、看展覽、看球賽、喜歡趴哩啪啦講一堆話，還喜歡追劇</p>
+                    <p>目前最喜歡的劇是"<mark>點燃我溫暖你</mark>"，已經六刷💖</p>
+                </section>
+            </div>
+            <hr> 
         </article>
 
-        <!-- 學習經歷介紹 -->
         <article id="section2">
-            <header>
-                <h2>學習經歷</h2>
-            </header>
+            <h2>就讀學校</h2>
             <section>
-                <table>
-
-                    <tbody>
-                        <tr>
-                            <td>2017-2023</td>
-                            <td>私立復旦高級中學</td>
-                        </tr>
-                        <tr>
-                            <td>2023-現今</td>
-                            <td>國立台北教育大學 資訊科學系</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="school-entry">
+                    <img src="asset/image/school1.png" alt="中平國小校徽">
+                    <div class="school-info">
+                        <p><strong>中平國小</strong></p>
+                        <p>2011-2017</p>
+                    </div>
+                </div>
+                <div class="school-entry">
+                    <img src="asset/image/mark-removebg-preview.png" alt="復旦高中校徽">
+                    <div class="school-info">
+                        <p><strong>私立復旦高級中學</strong></p>
+                        <p>2017 - 2023</p>
+                    </div>
+                </div>
+                <div class="school-entry">
+                    <img src="asset/image/540714030-removebg-preview.png" alt="國立台北教育大學校徽">
+                    <div class="school-info">
+                        <p><strong>國立台北教育大學 資訊科學系</strong></p>
+                        <p>2023 - 現今</p>
+                    </div>
+                </div>
             </section>
+            <hr> 
         </article>
 
-        <!-- 技能介紹 -->
         <article id="section3">
-            <header>
-                <h2>小小技能</h2>
-            </header>
-            <section>
-                <table>
-                    <tr>
-                        <td>烤麵包</td>
-                        <td>⭐⭐⭐</td>
-                    </tr>
-                    <tr>
-                        <td>烤餅乾</td>
-                        <td>⭐⭐⭐</td>
-                    </tr>
-                    <tr>
-                        <td>烤蛋糕</td>
-                        <td>⭐⭐⭐⭐⭐</td>
-                    </tr>
-                </table>
-            </section>
+            <h2>小小技能</h2>
+            <div class="clearfix">
+                <section>
+                    <table>
+                        <tr>
+                            <td>畫畫🎨</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>3D繪圖</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>羊毛氈🐑</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>烤餅乾🍪</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>烤蛋糕🎂</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>烤麵包🥐</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                    </table>
+                    <p>平常就喜歡做一些非學科類的事，<br>
+                        像是畫畫、烘焙、手作等等，<br>
+                        這些事讓我感到非常開心且放鬆。
+                    </p>
+                </section>
+                
+                <div class="carousel-container">
+                    <div class="carousel-slide" id="skill-carousel">
+                        <figure>
+                            <img src="asset/image/draw1.jpg" alt="畫畫作品 1">
+                            <figcaption>好像是水墨畫</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw2.jpg" alt="畫畫作品 2">
+                            <figcaption>蠟筆</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw3.png" alt="畫畫作品 3">
+                            <figcaption>用AI生成的徽章</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw4.jpg" alt="畫畫作品 4">
+                            <figcaption>電繪禮服</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw5.jpg" alt="畫畫作品 5">
+                            <figcaption>這也是電繪禮服</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw7.jpg" alt="畫畫作品 6">
+                            <figcaption>大一下才畫的電繪禮服</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/draw6.jpg" alt="畫畫作品 7">
+                            <figcaption>國小得名的漫畫</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/3D1.png" alt="3D繪圖作品 1">
+                            <figcaption>3D繪圖的大象</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/3D2.png" alt="3D繪圖作品 2">
+                            <figcaption>3D繪圖的熊?</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cabo.png" alt="羊毛氈作品 1">
+                            <figcaption>羊毛氈咖波</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/百變怪1.png" alt="羊毛氈作品 2">
+                            <figcaption>羊毛氈百變怪</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/百變怪2.jpg" alt="羊毛氈作品 3">
+                            <figcaption>羊毛氈百變怪</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cookie.jpg" alt="烤餅乾作品">
+                            <figcaption>手作餅乾</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cake1.png" alt="烤蛋糕作品 1">
+                            <figcaption>做給爸比的蛋糕</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cake2.jpg" alt="烤蛋糕作品 2">
+                            <figcaption>做給老師的蛋糕</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cake3.png" alt="烤蛋糕作品 3">
+                            <figcaption>做給媽咪的蛋糕</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/cake4.jpg" alt="烤蛋糕作品 4">
+                            <figcaption>做給自己的蛋糕</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/baba.jpg" alt="烤麵包作品 1">
+                            <figcaption>他叫做巴巴露亞</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/bread.jpg" alt="烤麵包作品 2">
+                            <figcaption>可愛小麵包</figcaption>
+                        </figure>
+                    </div>
+                    <div class="carousel-buttons">
+                        <button onclick="changeSlideS(-1)">❮</button>
+                        <button onclick="changeSlideS(1)">❯</button>
+                    </div>
+                </div>
+            </div>
+            <hr> 
         </article>
 
-        <!-- 音樂作品介紹 -->
         <article id="section4">
-            <h2>音訊介紹</h2>
+            <h2>比賽經歷</h2>
+            <div class="clearfix">
+                <section>
+                <table>
+                    <tr>
+                        <td>2025</td>
+                        <td>校長盃</td>
+                    </tr>
+                    <tr>
+                        <td>2025</td>
+                        <td>校運會4*100接力</td>
+                    </tr>
+                    <tr>
+                        <td>2025</td>
+                        <td>校運會大隊接力</td>
+                    </tr>
+                </table>
+                <p>就喜歡跑跑步啊!<br>
+                    享受一下衝刺的快感，🏃‍♀️<br>
+                    就是可惜沒有大一就參加4*100接力。<br>
+                </p>
+                </section>
+                <div class="carousel-container">
+                    <div class="carousel-slide" id="volleyball-carousel"> 
+                        <figure>
+                            <img src="asset/image/羽球.jpg" alt="羽球比賽照片">
+                            <figcaption>校長盃羽球比賽</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/跑步.jpg" alt="校運會接力照片 1">
+                            <figcaption>全校第二名喔!!🥈</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="asset/image/跑步2.jpg" alt="校運會接力照片 2">
+                            <figcaption>大隊接力</figcaption>
+                        </figure>
+                    </div>
+                    <div class="carousel-buttons">
+                        <button onclick="changeSlideV(-1)">❮</button>
+                        <button onclick="changeSlideV(1)">❯</button>
+                    </div>
+                </div>
+            </div>
+            <hr> 
+        </article>
+
+        <article id="section5">
+            <h2>排球隊</h2>
+            <div class="clearfix">
+                <section>
+                <p>
+                    我真的超愛排球隊的，🩷<br>
+                    每個人都非常的好相處，<br>
+                    讓我獲得特別多的歸屬感，<br>
+                    也交到了好多好朋友，<br>
+                    排球隊是我大學生活中，<br>
+                    很重要的一部分。✨<br>
+                </p>
+                </section>
+                
+                <div class="carousel-container">
+                    <div class="carousel-slide" id="volleyball-carousel-2"> 
+                        <figure><img src="asset/image/排球1.jpg" alt="排球隊照片 1"><figcaption>排盟</figcaption></figure>
+                        <figure><img src="asset/image/排球2.jpg" alt="排球隊照片 2"><figcaption>一上期末隊聚</figcaption></figure>
+                        <figure><img src="asset/image/排球3.jpg" alt="排球隊照片 3"><figcaption>寒訓去台南!</figcaption></figure>
+                        <figure><img src="asset/image/排球4.jpg" alt="排球隊照片 4"><figcaption>這是漁光島沙灘</figcaption></figure>
+                        <figure><img src="asset/image/排球5.jpg" alt="排球隊照片 5"><figcaption>應該是傳承盃</figcaption></figure>
+                        <figure><img src="asset/image/排球6.jpg" alt="排球隊照片 6"><figcaption>這應該也是傳承盃</figcaption></figure>
+                        <figure><img src="asset/image/排球7.jpg" alt="排球隊照片 7"><figcaption>一起參加資科之夜</figcaption></figure>
+                        <figure><img src="asset/image/排球8.jpg" alt="排球隊照片 8"><figcaption>日常耍笨</figcaption></figure>
+                        <figure><img src="asset/image/排球9.jpg" alt="排球隊照片 9"><figcaption>應該是有比賽</figcaption></figure>
+                        <figure><img src="asset/image/排球10.jpg" alt="排球隊照片 10"><figcaption>資科盃隊友你行你上</figcaption></figure>
+                        <figure><img src="asset/image/排球11.jpg" alt="排球隊照片 11"><figcaption>資科盃大合照</figcaption></figure>
+                        <figure><img src="asset/image/排球12.jpg" alt="排球隊照片 12"><figcaption>校長盃</figcaption></figure>
+                        <figure><img src="asset/image/排球14.jpg" alt="排球隊照片 14"><figcaption>學姊畢業典禮</figcaption></figure>
+                        <figure><img src="asset/image/排球15.jpg" alt="排球隊照片 15"><figcaption>飲料盃</figcaption></figure>
+                        <figure><img src="asset/image/排球16.jpg" alt="排球隊照片 16"><figcaption>忘記為什麼要拍照了</figcaption></figure>
+                        <figure><img src="asset/image/排球17.jpg" alt="排球隊照片 17"><figcaption>一下期末隊聚</figcaption></figure>
+                        <figure><img src="asset/image/排球18.png" alt="排球隊照片 18"><figcaption>暑訓去宜蘭</figcaption></figure>
+                        <figure><img src="asset/image/排球19.jpg" alt="排球隊照片 19"><figcaption>教練生日快樂</figcaption></figure>
+                        <figure><img src="asset/image/排球20.jpg" alt="排球隊照片 20"><figcaption>排盟 贏</figcaption></figure>
+                        <figure><img src="asset/image/排球21.jpg" alt="排球隊照片 21"><figcaption>排盟 再贏</figcaption></figure>
+                        <figure><img src="asset/image/排球23.jpg" alt="排球隊照片 22"><figcaption>排盟 又贏</figcaption></figure>
+                        <figure><img src="asset/image/排球22.jpg" alt="排球隊照片 22"><figcaption>花蓮二日遊</figcaption></figure>
+                    </div>
+                    <div class="carousel-buttons">
+                        <button onclick="changeSlideV2(-1)">❮</button>
+                        <button onclick="changeSlideV2(1)">❯</button>
+                    </div>
+                </div>
+            </div>
+            <hr> 
+        </article>
+
+        <article id="section6">
+            <h2>音樂作品</h2>
+            <p>AIVA🎵：</p>
             <audio controls>
-                <!-- 改為你的作品 -->
                 <source src="asset\music\資二甲_111316036_劉采盈_1013.mp3.mp3" type="audio/mpeg">
             </audio>
+            <p>SUNO🎶：</p>
+            <audio controls>
+                <source src="asset/music/Starlight Glow.mp3" type="audio/mpeg">
+            </audio>
+            <hr> 
         </article>
 
-        <!-- 視訊作品介紹-->
-        <article id="section5">
-            <h2>視訊介紹</h2>
-            <video controls width="300">
-                <!-- 改為你的作品 -->
-                <source src="assets/video/Whispers in the Trees 1.mp4" type="audio/mpeg">                
-            </video>
-            &nbsp;&nbsp;<!-- 添加間隔 -->
-            <video controls width="300">
-                <!-- 改為你的作品 -->
-                <source src="assets/video/Rise Up and Shine.mp4" type="video/mp4">
-            </video>
-        </article>
-    
-        <!-- 圖片作品集介紹與描述 -->
-        <article id="section6">
-            <h2>照片集</h2>
-            <figure style="display:inline-block;">
-                <!-- 改為你的作品 -->
-                <img src="assets/images/mountain.jpg" alt="山間風景" width="450">
-                <figcaption>壯麗的山景</figcaption>
-            </figure>
-            <figure style="display:inline-block;">
-                <!-- 改為你的作品 -->
-                <img src="assets/images/village.jpg" alt="小鎮景色" width="450">
-                <figcaption>寧靜的小鎮</figcaption>
-            </figure>
-        </article>
-
-        <!-- 嵌入PDF文件 -->
         <article id="section7">
-            <h2>更多資訊</h2>
-            <!-- 改為你的作品 -->
-            <embed src="assets/pdf/llm models.pdf" width="500" height="600">
+            <h2>視訊作品📽️</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/GaQ0SKAYtaE?si=rT5smtxgrK53LBnh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <hr> 
         </article>
 
-        <!-- 互動元素 -->
+        <article id="section8">
+            <h2>圖片作品📷</h2>
+            <div class="image-gallery-wrapper clearfix"> 
+                <div class="image-column">
+                    <div class="image-showcase-box"> 
+                        <figure>
+                            <img src="asset/image/pancake.png" alt="鬆餅">
+                            <figcaption>
+                                週末早晨的完美誘惑！☀️<br>
+                                這堆金黃酥脆的鬆餅疊得像座小山，<br>
+                                配上香草冰淇淋的冰涼、新鮮莓果的酸甜，<br>
+                                最後再淋上琥珀色的楓糖，<br>
+                                簡直是視覺與味覺的雙重享受！🤤<br>
+                                誰能抗拒這種甜蜜暴擊？<br>
+                                快@你的鬆餅搭檔，<br>
+                                一起來享受這份罪惡又幸福的美味吧！<br>
+                                #鬆餅 #waffles #早午餐 #brunch #甜點 #dessert #楓糖 #莓果 #美食攝影 #週末
+                            </figcaption>
+                        </figure>
+                        <p class="image-prompt">Prompt：生成一個白色盤子上，擺放正方形格子狀的鬆餅，鬆餅上面淋上金黃色的蜂蜜，最上面有一球香草冰淇淋，周圍擺滿新鮮草莓及各式莓果
+                        </p>
+                    </div>
+                    <div class="image-showcase-box"> 
+                        <figure>
+                            <img src="asset/image/HI_NTUE.png.png" alt="NTUE">
+                            <figcaption>使用網站：<a href="https://labs.google/gentype/">Gentype</a></figcaption>
+                        </figure>
+                    </div>
+                </div>
+                
+                <div class="image-column">
+                    <div class="image-showcase-box"> 
+                        <figure>
+                            <img src="asset/image/Gemini_Generated_cat (2).png" alt="貓1">
+                            <figcaption>Prompt：幫我生成圖片，一座礁島上，住著很多的貓貓狗狗，是個非常溫馨的小島</figcaption>
+                        </figure>
+                        <p class="image-prompt">這張圖的 prompt 是：幫我生成圖片，一座礁島上，住著很多的貓貓狗狗，是個非常溫馨的小島</p>
+                    </div>
+                    <div class="image-showcase-box"> 
+                        <figure>
+                            <img src="asset/image/Gemini_Generated_cat (1).png" alt="貓1">
+                            <figcaption>Prompt：宮崎駿風格，幫我生成圖片，一座礁島上，住著很多的貓貓狗狗，是個非常溫馨的小島</figcaption>
+                        </figure>
+                        <p class="image-prompt">Prompt：宮崎駿風格，幫我生成圖片，一座礁島上，住著很多的貓貓狗狗，是個非常溫馨的小島</p>
+                    </div>
+                </div>
+            </div>
+            <hr> 
+        </article>
+
+        <article id="section9">
+            <h2>密室逃脫</h2>
+            <div class="clearfix">
+                <section>
+                <p>
+                    超級喜歡玩密室♥尤其是恐怖密室，<br>
+                    如果有錢的話，願望是玩遍全台灣的恐怖密室，🔎<br>
+                    但我其實非常的膽小呵呵呵呵呵<br>
+                    就是又菜又愛玩。💦
+                </p>
+                </section>
+                
+                <div class="carousel-container">
+                    <div class="carousel-slide" id="volleyball-carousel-3"> 
+                        <figure><img src="asset/image/密室1.jpg" alt="密室逃脫照片 1"><figcaption>羅伯班克</figcaption></figure>
+                        <figure><img src="asset/image/密室2.jpg" alt="密室逃脫照片 2"><figcaption>顛倒的室</figcaption></figure>
+                        <figure><img src="asset/image/密室3.jpg" alt="密室逃脫照片 3"><figcaption>我們的秘密</figcaption></figure>
+                        <figure><img src="asset/image/密室4.jpg" alt="密室逃脫照片 4"><figcaption>辛亥隧道</figcaption></figure>
+                        <figure><img src="asset/image/密室5.jpg" alt="密室逃脫照片 5"><figcaption>永春醫院</figcaption></figure>
+                        <figure><img src="asset/image/密室6.jpg" alt="密室逃脫照片 6"><figcaption>荒村小學</figcaption></figure>
+                        <figure><img src="asset/image/密室7.jpg" alt="密室逃脫照片 7"><figcaption>軒轅忍者傳</figcaption></figure>
+                        <figure><img src="asset/image/密室8.jpg" alt="密室逃脫照片 8"><figcaption>奪命記憶</figcaption></figure>
+                        <figure><img src="asset/image/密室9.jpg" alt="密室逃脫照片 9"><figcaption>奪命鎖鏈1</figcaption></figure>
+                        <figure><img src="asset/image/密室10.jpg" alt="密室逃脫照片 10"><figcaption>鬼新娘</figcaption></figure>
+                    </div>
+                    <div class="carousel-buttons">
+                        <button onclick="changeSlideV3(-1)">❮</button>
+                        <button onclick="changeSlideV3(1)">❯</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </article>
+
+        <article id="section10">
+            <h2>學校位置</h2>
+            <div class="clearfix">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.2784024338266!2d121.54206247541927!3d25.02462437782254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a908a8232611%3A0xeebfb2d71a5025c7!2z5ZyL56uL6Ie65YyX5pWZ6IKy5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1731827435609!5m2!1szh-TW!2stw" width="300" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>         
+            </div>
+            <hr>
+        </article>
+
         <details>
-            <summary>點擊查看學習提示</summary>
-            <p>建議攜帶筆記本與筆，方便隨時記錄課堂中的關鍵知識點與靈感。</p>
+            <summary>點擊查看可愛的東西</summary>
+            <img src="asset/image/狗狗.png" alt="狗狗圖片" style="width:200px; display:block; margin-top:10px;">
+            <p>給你們看可愛的狗勾🤎</p>
         </details>
 
-        <!-- 加入地圖 -->
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.2784024338266!2d121.54206247541927!3d25.02462437782254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a908a8232611%3A0xeebfb2d71a5025c7!2z5ZyL56uL6Ie65YyX5pWZ6IKy5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1731827435609!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>        
+        <hr>
     </main>
     
-    <!-- 頁尾區 -->
     <footer>
         <p>聯絡我們：s111316036@stu.nyue.edu.tw</p>
-        <time datetime="2025-11-24">最後更新日期：2025年11月24日</time>
+        <time datetime="2025-12-03">最後更新日期：2025年12月3日</time>
     </footer>
+
+    <script>
+        // --- 小小技能輪播 ---
+        let slideIndexS = 0;
+        const slidesS = document.getElementById('skill-carousel');
+        
+        // --- 比賽經歷輪播 ---
+        let slideIndexV = 0;
+        const slidesV = document.getElementById('volleyball-carousel');
+        
+        // --- 排球隊輪播 ---
+        let slideIndexV2 = 0;
+        const slidesV2 = document.getElementById('volleyball-carousel-2');
+        
+        // --- 密室逃脫輪播 ---
+        let slideIndexV3 = 0;
+        const slidesV3 = document.getElementById('volleyball-carousel-3');
+
+        // 通用顯示邏輯
+        function showSlides(slidesElement, index) {
+            if (!slidesElement) return;
+            const carouselContainer = slidesElement.closest('.carousel-container');
+            if (!carouselContainer) return;
+            
+            // 修正：現在滑動的元素是 <figure>
+            const currentFigure = slidesElement.children[index];
+            if (currentFigure) {
+                // 使用容器寬度作為位移量
+                const containerWidth = carouselContainer.clientWidth;
+                slidesElement.style.transform = `translateX(${-index * containerWidth}px)`;
+
+                // 動態調整容器高度以適應圖片和註解
+                const calculateHeight = () => {
+                    // totalHeight 應為 figure 的總高度 (包含圖片和註解)
+                    const totalHeight = currentFigure.offsetHeight;
+                    carouselContainer.style.height = totalHeight + 'px';
+                };
+
+                // 確保在圖片載入後再計算高度
+                const currentImage = currentFigure.querySelector('img');
+                if (currentImage) {
+                    if (currentImage.complete) {
+                        calculateHeight();
+                    } else {
+                        currentImage.onload = calculateHeight;
+                    }
+                }
+            }
+        }
+
+        // 技能輪播控制
+        function changeSlideS(n) {
+            if (!slidesS) return;
+            const totalSlides = slidesS.children.length;
+            slideIndexS += n;
+            
+            if (slideIndexS >= totalSlides) {
+                slideIndexS = 0;
+            } else if (slideIndexS < 0) {
+                slideIndexS = totalSlides - 1;
+            }
+            showSlides(slidesS, slideIndexS);
+        }
+
+        // 比賽經歷輪播控制
+        function changeSlideV(n) {
+            if (!slidesV) return;
+            const totalSlides = slidesV.children.length;
+            slideIndexV += n;
+            
+            if (slideIndexV >= totalSlides) {
+                slideIndexV = 0;
+            } else if (slideIndexV < 0) {
+                slideIndexV = totalSlides - 1;
+            }
+            showSlides(slidesV, slideIndexV);
+        }
+
+        // 排球隊輪播控制
+        function changeSlideV2(n) {
+            if (!slidesV2) return;
+            const totalSlides = slidesV2.children.length;
+            slideIndexV2 += n;
+            
+            if (slideIndexV2 >= totalSlides) {
+                slideIndexV2 = 0;
+            } else if (slideIndexV2 < 0) {
+                slideIndexV2 = totalSlides - 1;
+            }
+            showSlides(slidesV2, slideIndexV2);
+        }
+
+        // 密室逃脫輪播控制
+        function changeSlideV3(n) {
+            if (!slidesV3) return;
+            const totalSlides = slidesV3.children.length;
+            slideIndexV3 += n;
+            
+            if (slideIndexV3 >= totalSlides) {
+                slideIndexV3 = 0;
+            } else if (slideIndexV3 < 0) {
+                slideIndexV3 = totalSlides - 1;
+            }
+            showSlides(slidesV3, slideIndexV3);
+        }
+
+        // 初始化時調整一次位置
+        window.addEventListener('load', () => {
+            showSlides(slidesS, slideIndexS);
+            showSlides(slidesV, slideIndexV);
+            showSlides(slidesV2, slideIndexV2);
+            showSlides(slidesV3, slideIndexV3);
+        });
+        window.addEventListener('resize', () => {
+            showSlides(slidesS, slideIndexS);
+            showSlides(slidesV, slideIndexV);
+            showSlides(slidesV2, slideIndexV2);
+            showSlides(slidesV3, slideIndexV3);
+        });
+    </script>
 </body>
 </html>
